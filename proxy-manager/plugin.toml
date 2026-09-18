@@ -1,0 +1,16 @@
+id           = "9vvert/proxy-manager" 
+name         = "Proxy"
+version      = "1.0.0"
+plugin_api   = 24         # mandatory: oldest plugin API level required
+author       = "9vvert"
+license      = "MIT"     # optional; defaults to MIT
+deprecated   = false     # optional; defaults to false
+icon         = "route-off"  # optional
+description  = "Manage proxy"
+tags         = ["demo"]  # optional, for catalog search
+
+
+[[widget]]
+id = "proxy"
+entry = "widget.luau"
+
