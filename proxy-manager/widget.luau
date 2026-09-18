@@ -2,18 +2,22 @@ local proxy_stat = 0;
 
 function check_stat(proxy_on_caller, proxy_off_caller)
     noctalia.runAsync(
-        {"systemctl", "is-active", "--quiet", "dae.service"},
+        "systemctl is-active --quiet dae.service",
         function (result)
             -- activated
             if result.exitCode == 0 then
                 proxy_stat = 1;
                 barWidget.setGlyph("route");
-                proxy_on_caller();
+                if proxy_on_caller then
+                    proxy_on_caller();
+                end
             else
             -- deactivated
                 proxy_stat = 0;
                 barWidget.setGlyph("route-off");
-                proxy_off_caller();
+                if proxy_off_caller then
+                    proxy_off_caller();
+                end
             end
         end
     )
@@ -29,7 +33,7 @@ end
 function onClick()
     check_stat(
         function ()
-            noctalia.runAsync({ "daectl", "off" }, function(result)
+            noctalia.runAsync("daectl off", function(result)
                 if result.exitCode == 0 then
                     noctalia.notify("dae.service Deactivated")
                 else
@@ -40,7 +44,7 @@ function onClick()
         end,
 
         function ()
-            noctalia.runAsync({ "daectl", "on" }, function(result)
+            noctalia.runAsync("daectl on", function(result)
                 if result.exitCode == 0 then
                     noctalia.notify("dae.service Activated")
                 else
@@ -54,7 +58,7 @@ function onClick()
 end
 
 function onRightClick()
-    noctalia.runAsync({ "daectl", "test"}, function(result)
+    noctalia.runAsync("daectl test", function(result)
         noctalia.notify(result.stdout)
     end)
 end
