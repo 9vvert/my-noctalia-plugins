@@ -29,7 +29,7 @@ end
 function onClick()
     check_stat(
         function ()
-            noctalia.runAsync({ "sudo", "systemctl", "stop", "dae" }, function(result)
+            noctalia.runAsync({ "daectl", "off" }, function(result)
                 if result.exitCode == 0 then
                     noctalia.notify("dae.service Deactivated")
                 else
@@ -40,7 +40,7 @@ function onClick()
         end,
 
         function ()
-            noctalia.runAsync({ "sudo", "systemctl", "start", "dae" }, function(result)
+            noctalia.runAsync({ "daectl", "on" }, function(result)
                 if result.exitCode == 0 then
                     noctalia.notify("dae.service Activated")
                 else
